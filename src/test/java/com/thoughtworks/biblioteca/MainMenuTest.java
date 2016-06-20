@@ -34,7 +34,7 @@ public class MainMenuTest {
         commandsMap.put("2", checkoutCommand);
         commandsMap.put("3", quitter);
 
-        mainMenu = new MainMenu(printStream, library, inputReader, quitter, commandsMap);
+        mainMenu = new MainMenu(printStream, inputReader, commandsMap);
 
     }
 
@@ -50,28 +50,29 @@ public class MainMenuTest {
 
     @Test
     public void shouldGiveInvalidInputMessageWhenUserEntersInvalidCommand() {
-        mainMenu.executeUserCommand("INVALID");
+        mainMenu.executeUserCommand();
         verify(printStream).println(contains("Select a valid option!"));
     }
 
     @Test
     public void shouldExecuteListBookCommandWhenUserEntersOne() throws IOException {
-        mainMenu.executeUserCommand("1");
+        when(inputReader.receiveUserCommand()).thenReturn("1");
+        mainMenu.executeUserCommand();
         verify(listBookCommand).executeCommand();
+    }
+
+    @Test
+    public void shouldExecuteCheckoutBookCommandWhenCustomerEntersTwo(){
+        when(inputReader.receiveUserCommand()).thenReturn("2");
+        mainMenu.executeUserCommand();
+        verify(checkoutCommand).executeCommand();
     }
 
     @Test
     public void shouldQuitApplicationWhenUserEntersThree(){
         when(inputReader.receiveUserCommand()).thenReturn("3");
-        mainMenu.startMenuSession();
+        mainMenu.executeUserCommand();
         verify(printStream, atMost(0)).println("Select a valid option!");
 
     }
-
-    @Test
-    public void shouldPromptForBookTitleWhenCustomerEntersThree(){
-        mainMenu.executeUserCommand("2");
-        verify(checkoutCommand).executeCommand();
-    }
-
 }

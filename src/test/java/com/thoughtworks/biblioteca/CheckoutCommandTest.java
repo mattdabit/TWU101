@@ -29,19 +29,18 @@ public class CheckoutCommandTest {
     @Test
     public void shouldCheckoutABookFromLibraryWhenExecuteCommandIsCalled() {
         String book = "blah";
-        String author = "garbage";
-        when(inputReader.receiveUserCommand()).thenReturn(book, author);
+        when(inputReader.receiveUserCommand()).thenReturn(book);
 
         checkoutCommand.executeCommand();
 
-        verify(library).checkOutBook(book, author);
+        verify(library).checkOutBook(book);
     }
 
     @Test
     public void shouldReturnMenuRepresentationStringWhenMenuRepresentationIsCalled() {
         String menuRepresentation = checkoutCommand.menuRepresentation();
 
-        assertThat(menuRepresentation, is("2. Checkout Book"));
+        assertThat(menuRepresentation, is("Checkout Book"));
     }
 
 }

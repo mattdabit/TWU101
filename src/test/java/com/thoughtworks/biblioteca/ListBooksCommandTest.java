@@ -29,6 +29,6 @@ public class ListBooksCommandTest {
     @Test
     public void shouldReturnMenuRepresentationWhenMenuRepresentationCalled() {
         String menuRepresentation = listBooksCommand.menuRepresentation();
-        assertThat(menuRepresentation, is("1. List Books"));
+        assertThat(menuRepresentation, is("List Books"));
     }
 }

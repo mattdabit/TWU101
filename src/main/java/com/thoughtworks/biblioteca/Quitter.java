@@ -13,7 +13,7 @@ public class Quitter implements Command {
 
     @Override
     public String menuRepresentation() {
-        return "3. Quit";
+        return "Quit";
     }
 
 

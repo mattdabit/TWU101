@@ -27,6 +27,6 @@ public class QuitterTest {
     public void shouldReturnMenuRepresentationWhenMenuRepresentationIsCalled() {
         String menuRepresentation = quitter.menuRepresentation();
 
-        assertThat(menuRepresentation, is("3. Quit"));
+        assertThat(menuRepresentation, is("Quit"));
     }
 }

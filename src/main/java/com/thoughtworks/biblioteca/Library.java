@@ -1,25 +1,32 @@
 package com.thoughtworks.biblioteca;
 import java.io.PrintStream;
 import java.util.Collection;
-import java.util.Map;
 
 public class Library {
 
     private PrintStream printStream;
-    private Collection<Book> books;
+    private Collection<Book> booksInLibrary;
+    private Collection<Book> checkedOutBooks;
+    private BookFinder bookFinder;
 
-    public Library(PrintStream printStream, Collection books) {
+    public Library(PrintStream printStream, Collection<Book> booksInLibrary, Collection<Book> checkedOutBooks, BookFinder bookFinder) {
         this.printStream = printStream;
-        this.books = books;
+        this.booksInLibrary = booksInLibrary;
+        this.checkedOutBooks = checkedOutBooks;
+        this.bookFinder = bookFinder;
     }
 
     public void listBooks() {
-        for(Book book : books){
+        for(Book book : booksInLibrary){
             printStream.println(book.getDescription());
         }
     }
 
-    public void checkOutBook(String bookTitle, String bookAuthor) {
-
+    public void checkOutBook(String bookTitle) {
+        Book bookToCheckOut = bookFinder.findBook(booksInLibrary, bookTitle);
+        checkedOutBooks.add(bookToCheckOut);
+        booksInLibrary.remove(bookToCheckOut);
     }
+
+
 }

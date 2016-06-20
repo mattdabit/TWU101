@@ -10,24 +10,26 @@ public class Main {
     public static void main(String[] args) {
         PrintStream printStream = System.out;
 
-        Collection<Book> books = new ArrayList<>();
+        Collection<Book> booksInLibrary = new ArrayList<>();
+        Collection<Book> checkedOutBooks = new ArrayList<>();
         Book book = new Book("A book", "Jason Bourne", 2000);
-        books.add(book);
+        booksInLibrary.add(book);
         Book book2 = new Book("Cats", "Cat Lady", 2015);
-        books.add(book2);
+        booksInLibrary.add(book2);
 
-        Library library = new Library(printStream, books);
+        BookFinder bookFinder = new BookFinder();
+        Library library = new Library(printStream, booksInLibrary, checkedOutBooks, bookFinder);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Input input = new Input(reader);
-        Quitter quitCommand = new Quitter();
+        Quitter quitter = new Quitter();
 
         Map<String, Command> commandsMap = new TreeMap<>();
         commandsMap.put("1", new ListBooksCommand(library));
-        commandsMap.put("2",new CheckoutCommand(printStream, input, library));
-        commandsMap.put("3", quitCommand);
+        commandsMap.put("2", new CheckoutCommand(printStream, input, library));
+        commandsMap.put("3", quitter);
 
-        MainMenu mainMenu = new MainMenu(printStream, library, input, quitCommand, commandsMap);
+        MainMenu mainMenu = new MainMenu(printStream, input, commandsMap);
 
-        new ApplicationX(library, printStream, mainMenu).start();
+        new Application(printStream, mainMenu, quitter).start();
     }
 }

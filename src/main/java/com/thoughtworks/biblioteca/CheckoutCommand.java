@@ -17,13 +17,11 @@ public class CheckoutCommand implements Command {
     public void executeCommand() {
         printStream.println("Please enter the book title you want to checkout!");
         String bookTitle = inputReader.receiveUserCommand();
-        printStream.println("Please enter the book author!");
-        String bookAuthor = inputReader.receiveUserCommand();
-        library.checkOutBook(bookTitle, bookAuthor);
+        library.checkOutBook(bookTitle);
     }
 
     @Override
     public String menuRepresentation() {
-        return "2. Checkout Book";
+        return "Checkout Book";
     }
 }

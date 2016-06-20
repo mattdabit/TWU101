@@ -1,7 +1,6 @@
 package com.thoughtworks.biblioteca;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.PrintStream;
@@ -9,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import static org.mockito.AdditionalMatchers.not;
-import static org.mockito.Matchers.contains;
 import static org.mockito.Mockito.*;
 
 
@@ -17,47 +15,47 @@ public class LibraryTest {
 
     private PrintStream printStream;
     private Book book;
-    private Collection<Book> books;
+    private Collection<Book> booksInLibrary;
+    private Collection<Book> checkedOutBooks;
+    private Library library;
+    private BookFinder bookFinder;
+
 
     @Before
     public void setUp() throws Exception {
         book = mock(Book.class);
-        when(book.getDescription()).thenReturn("Foo");
         printStream = mock(PrintStream.class);
+        bookFinder = mock(BookFinder.class);
 
-        books = new ArrayList<>();
-        books.add(book);
+        booksInLibrary = new ArrayList<>();
+        booksInLibrary.add(book);
+        checkedOutBooks = new ArrayList<>();
 
+        library = new Library(printStream, booksInLibrary, checkedOutBooks, bookFinder);
     }
 
     @Test
     public void shouldPrintBookDescriptionWhenListingBooks(){
 
-        Library library = new Library(printStream, books);
         library.listBooks();
 
         verify(book).getDescription();
-        verify(printStream).println(contains("Foo"));
     }
 
     @Test
     public void shouldPrintMultipleBookDescriptionsWhenThereAreMultipleBooks(){
-        books.add(book);
-        Library library = new Library(printStream, books);
+        booksInLibrary.add(book);
         library.listBooks();
 
-        verify(printStream, times(2)).println(contains("Foo"));
-
+        verify(book, times(2)).getDescription();
     }
 
-//    @Ignore
-//    public void shouldNotDisplayBookWhenCheckedOut(){
-//        Book book = new Book("A book", "Jason Bourne", 2000);
-//        Collection<Book> books = new ArrayList<>();
-//        books.add(book);
-//        Library library = new Library(printStream, books);
-//        library.checkOutBook(bookTitle, "A book");
-//        library.listBooks();
-//        verify(printStream).println(not(contains("A book")));
-//    }
+
+    @Test
+    public void shouldNotDisplayBookWhenCheckedOut(){
+        when(bookFinder.findBook(booksInLibrary, "Garbage")).thenReturn(book);
+        library.checkOutBook("Garbage");
+        library.listBooks();
+        verify(book, never()).getDescription();
+    }
 }

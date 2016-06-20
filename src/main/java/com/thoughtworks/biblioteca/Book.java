@@ -14,4 +14,8 @@ public class Book {
     public String getDescription() {
         return String.format("%s    %s  %d", title, author, year);
     }
+
+    public String getTitle() {
+        return title;
+    }
 }

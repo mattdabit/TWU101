@@ -15,7 +15,7 @@ public class ListBooksCommand implements Command {
 
     @Override
     public String menuRepresentation() {
-        return "1. List Books";
+        return "List Books";
     }
 }
 
