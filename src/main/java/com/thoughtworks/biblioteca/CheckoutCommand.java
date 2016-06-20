@@ -8,7 +8,6 @@ public class CheckoutCommand implements Command {
     private Library library;
 
     public CheckoutCommand(PrintStream printStream, Input inputReader, Library library){
-
         this.printStream = printStream;
         this.inputReader = inputReader;
         this.library = library;
