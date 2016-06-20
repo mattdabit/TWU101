@@ -17,6 +17,7 @@ public class CheckoutCommand implements Command {
     public void executeCommand() {
         printStream.println("Please enter the book title you want to checkout!");
         String bookTitle = inputReader.receiveUserCommand();
+
         library.checkOutBook(bookTitle);
     }
 

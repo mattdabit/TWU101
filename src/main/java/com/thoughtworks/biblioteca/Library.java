@@ -1,31 +1,34 @@
 package com.thoughtworks.biblioteca;
 import java.io.PrintStream;
-import java.util.Collection;
+import java.util.Map;
 
 public class Library {
 
     private PrintStream printStream;
-    private Collection<Book> booksInLibrary;
-    private Collection<Book> checkedOutBooks;
-    private BookFinder bookFinder;
+    private Map<String, Book> booksInLibrary;
+    private Map<String, Book> checkedOutBooks;
 
-    public Library(PrintStream printStream, Collection<Book> booksInLibrary, Collection<Book> checkedOutBooks, BookFinder bookFinder) {
+    public Library(PrintStream printStream, Map<String, Book> booksInLibrary, Map<String, Book> checkedOutBooks) {
         this.printStream = printStream;
         this.booksInLibrary = booksInLibrary;
         this.checkedOutBooks = checkedOutBooks;
-        this.bookFinder = bookFinder;
     }
 
     public void listBooks() {
-        for(Book book : booksInLibrary){
+        for(Book book : booksInLibrary.values()){
             printStream.println(book.getDescription());
         }
     }
 
     public void checkOutBook(String bookTitle) {
-        Book bookToCheckOut = bookFinder.findBook(booksInLibrary, bookTitle);
-        checkedOutBooks.add(bookToCheckOut);
-        booksInLibrary.remove(bookToCheckOut);
+        if (booksInLibrary.containsKey(bookTitle)){
+            checkedOutBooks.put(bookTitle, booksInLibrary.get(bookTitle));
+            booksInLibrary.remove(bookTitle);
+            printStream.println("Thank you! Enjoy the book");
+        }else{
+            printStream.println("That book is not available.");
+        }
+
     }
 
 
